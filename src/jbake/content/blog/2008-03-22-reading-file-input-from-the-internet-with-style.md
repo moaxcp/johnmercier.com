@@ -1,15 +1,8 @@
----
-layout: post
-title: Reading File Input from the Internet with Style
-date: 2008-03-22 06:58:00.000000000 -04:00
-categories:
-- Programming
-tags: []
-status: publish
-type: post
-published: true
-comments: true
----
+status=published
+type=post
+title=Reading File Input from the Internet with Style
+date=2008-03-22
+~~~~~~
 <a href="/images/parserstream.png"><img src="/images/parserstream.png" border="0" /></a>
 
 Parsing Problem: Write a ParserStream that can parse tag attributes and simple text patterns. The Stream must also be able to replace those attributes with what the programmer wants.

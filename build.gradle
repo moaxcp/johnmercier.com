@@ -3,11 +3,9 @@ plugins {
     id 'org.jbake.site' version '1.0.0'
 }
 
-apply plugin: 'idea'
-
 
 repositories {
     jcenter()
 }
 
-tasks.assemble.dependsOcn 'bake'
+tasks.assemble.dependsOn 'bake'

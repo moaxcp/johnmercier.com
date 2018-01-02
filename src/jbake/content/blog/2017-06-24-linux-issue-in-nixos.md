@@ -1,8 +1,8 @@
----
-title: linux issues in nixos
-layout: post
-comments: true
----
+status=published
+type=post
+title=linux issues in nixos
+date=2017-06-24
+~~~~~~
 After installing nixos I had some issues with the linux kernel and possibly kde. At boot I would get
 errors like this.
 
