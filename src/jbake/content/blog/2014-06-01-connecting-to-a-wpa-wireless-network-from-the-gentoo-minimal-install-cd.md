@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Connecting to a WPA Wireless Network From The Gentoo Minimal Install CD
 date=2014-06-01
+status=published
 ~~~~~~
 Connecting to a wpa enabled wireless network can be difficult in the gentoo minimum install cd. Most sources suggest not to use the cd if this is an issue and to use a cd from a different distribution. There is no reason to do this because the minimal install CD comes with wpa_supplicant. wpa_supplicant is the basic tool and library that most network configuration tools for all linux distributions use to connect to wpa networks.
 

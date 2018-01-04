@@ -1,7 +1,7 @@
-status=published
 type=post
 title=gentoo vagrant box
 date=2015-06-10
+status=published
 ~~~~~~
 I finally got my gentoo vagrant box up and running. There was a [bug](https://github.com/mitchellh/vagrant/issues/5070#issuecomment-75738232) in vagrant which I was able to find a workaround. I also had to make sure that the vboxsf module is loaded on boot. Otherwise, I got and error:
 

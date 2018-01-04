@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Spring Boot Auto-completion breaks xdm
 date=2015-08-28
+status=published
 ~~~~~~
 After setting up the spring boot cli auto-completion feature everything was working fine. Typing spring and then hitting tab in the console brought up the list of spring commands as promised. What I did not expect was after restarting my computer the xdm service complained about spring shell-completion.
 

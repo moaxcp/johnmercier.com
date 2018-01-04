@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Reading File Input from the Internet with Style
 date=2008-03-22
+status=published
 ~~~~~~
 <a href="/images/parserstream.png"><img src="/images/parserstream.png" border="0" /></a>
 

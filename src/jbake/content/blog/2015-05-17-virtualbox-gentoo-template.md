@@ -1,7 +1,7 @@
-status=published
 type=post
 title=VirtualBox Gentoo Template
 date=2015-05-17
+status=published
 ~~~~~~
 I am creating a new virtualbox gentoo instance. This will be used as a template for other gentoo vms on my laptop. For now it will be very basic.
 

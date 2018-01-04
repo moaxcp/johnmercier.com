@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Bluetooth mouse on Gentoo part 2
 date=2014-10-10
+status=published
 ~~~~~~
 simple-agent is no longer available in bluez. The gentoo wiki must be very outdated. The version I am using is 5.21. The test-programs use flag is no longer used. So I removed it from package.use. After searching for commands that start with blue I found bluetoothctl which did everything I needed. Here is what I did once bluetoothctl opened.
 

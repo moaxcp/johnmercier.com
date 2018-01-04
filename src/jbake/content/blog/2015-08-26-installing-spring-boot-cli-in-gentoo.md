@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Installing Spring Boot CLI in Gentoo
 date=2015-08-26
+status=published
 ~~~~~~
 
 First, download the latest spring-boot-cli

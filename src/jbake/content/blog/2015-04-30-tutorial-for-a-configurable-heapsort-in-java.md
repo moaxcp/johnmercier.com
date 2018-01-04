@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Tutorial For A Configurable Heapsort In Java
 date=2015-04-30
+status=published
 ~~~~~~
 Heapsort is implemented by creating a heap and continuously removing the root element until the heap is empty. A heap is a tree with two properties: shape and heap. The shape property requires that the tree is always a complete tree. The heap property requires the tree to be in min-heap order or max-heap order. A min-heap is a tree where each node is smaller than it's children. A max-heap is a tree where each node is larger than it's children. d-ary is used to describe the maximum number of children a node can have in the heap. Typical heapsort algorithms use a 2-ary heap but others are possible including a 1-ary heap.
 

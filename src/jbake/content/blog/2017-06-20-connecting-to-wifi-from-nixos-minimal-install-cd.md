@@ -1,7 +1,7 @@
-status=published
 type=post
 title=connecting to wifi from nixos minimal install cd
 date=2017-06-20
+status=published
 ~~~~~~
 
 One step in installing nixos I had trouble performing was connecting to wifi. On the minimal install boot

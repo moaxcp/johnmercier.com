@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Adding splitting screen shortcuts to the notion windows manager
 date=2014-10-12
+status=published
 ~~~~~~
 Some time ago I asked a question on stack overflow about adding new commands to the notion window manager. These commands split the entire workspace, adding a new frame to the bottom or side of it. Here is a link: http://stackoverflow.com/questions/24494725/splitting-workspaces-in-the-notion-window-manager
 

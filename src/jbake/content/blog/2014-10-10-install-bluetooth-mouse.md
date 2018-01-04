@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Install bluetooth mouse
 date=2014-10-10
+status=published
 ~~~~~~
 I am following the wiki article at: http://wiki.gentoo.org/wiki/Bluetooth
 

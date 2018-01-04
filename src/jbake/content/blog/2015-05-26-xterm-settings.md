@@ -1,7 +1,7 @@
-status=published
 type=post
 title=xterm settings
 date=2015-05-26
+status=published
 ~~~~~~
 
 To setup xterm with different colors than the system default edit the file ~.Xresources.

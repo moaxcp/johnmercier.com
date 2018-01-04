@@ -1,7 +1,7 @@
-status=published
 type=post
 title=upgrading vagrant box
 date=2015-06-19
+status=published
 ~~~~~~
 I'm upgrading [moaxcp/gentoo64](https://vagrantcloud.com/moaxcp/boxes/gentoo64) and these are my notes.
 

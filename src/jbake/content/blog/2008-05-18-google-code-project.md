@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Google Code Project
 date=2008-05-18
+status=published
 ~~~~~~
 I've started a Google Code project for my [download manager](http://code.google.com/p/delta-utilities/). Here is the description so far:
 

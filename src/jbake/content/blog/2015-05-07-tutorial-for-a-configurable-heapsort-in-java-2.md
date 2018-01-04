@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Tutorial For A Configurable Heapsort In Java 2
 date=2015-05-07
+status=published
 ~~~~~~
 In the previous post I showed how to create a heapsort with a configurable heap property. The next step is to add a configuration for the d-ary property.
 

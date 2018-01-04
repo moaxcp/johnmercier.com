@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Setting up gentoo again: Part 1
 date=2014-12-20
+status=published
 ~~~~~~
 Recently I decided to reinstall gentoo. The first install went well but I would like to switch the system to use raid 0, GPT, and LVM on LUKS. Setting up the hard drives is the primary reason for doing a complete reinstall. I also want to setup X with LXDM, LXDE, and notion. I really like notion but I do not want to build an entire desktop environment around it.
 

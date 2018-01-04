@@ -1,7 +1,7 @@
-status=published
 type=post
 title=notion 9999 ebuild.
 date=2015-05-30
+status=published
 ~~~~~~
 Today I am investigating installing the latest version of x11-wm/notion on my machine. I got an email from the developer that it should be safe. He said that there are no plans for a new release but many fixes have been made in the commit logs. I'm going to risk it and try out the latest development source code.
 

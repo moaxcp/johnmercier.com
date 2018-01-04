@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Adding JBake to nixpkgs
 date=2017-12-28
+status=published
 ~~~~~~
 
 [JBake](http://jbake.org/) is a static site/blog generator. I have been

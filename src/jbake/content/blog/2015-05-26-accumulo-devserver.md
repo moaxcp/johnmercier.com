@@ -1,7 +1,7 @@
-status=published
 type=post
 title=accumulo devserver
 date=2015-05-26
+status=published
 ~~~~~~
 Today I am messing with [this](https://github.com/joshelser/accumulo-devserver) project to create an accumulo dev server.
 

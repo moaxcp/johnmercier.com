@@ -1,7 +1,7 @@
-status=published
 type=post
 title=switching to nixos
 date=2017-06-19
+status=published
 ~~~~~~
 
 I have decided to switch from gentoo to nixos. I tried nixos over a year ago but had a lot of troubles. This was

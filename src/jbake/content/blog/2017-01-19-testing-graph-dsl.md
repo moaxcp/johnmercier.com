@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Testing graph-dsl
 date=2017-01-19
+status=published
 ~~~~~~
 graph-dsl is a project I started so I could write graphs and algorithms easily. Over the past
 year testing has become important to the way I write code. With graph-dsl I wanted to learn more 

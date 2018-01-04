@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Creating factordb
 date=2015-04-14
+status=published
 ~~~~~~
 <p>I started creating a new app called <a title="factordb" href="https://github.com/moaxcp/factordb">factordb</a>. I am using the new grails 3.0.1. I have a few ideas for what it should do</p>
 <ul>

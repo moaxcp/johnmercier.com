@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Create an Installer for Gentoo
 date=2014-05-18
+status=published
 ~~~~~~
 As with many linux distributions gentoo provides Live CDs which can be used to try out gentoo and install it. Gentoo offers two Live CDs one is a complete is with a GUI and the other is a minimal-install CD with only the tools needed to install Gentoo. These instructions will create gentoo's minimal install cd.
 

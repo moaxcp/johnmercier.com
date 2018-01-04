@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Gentoo Introduction
 date=2014-05-17
+status=published
 ~~~~~~
 Gentoo is one of the few linux based operating systems that allows users to build the operating system from the ground up. Being able to choose every part of the operating system, gentoo is extremely customizable. As a result it can be adapted to meet any users needs.
 

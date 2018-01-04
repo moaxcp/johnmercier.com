@@ -1,7 +1,7 @@
-status=published
 type=post
 title=moaxcp-gentoo-overlay
 date=2015-05-23
+status=published
 ~~~~~~
 I created an [gentoo overlay](https://github.com/moaxcp/moaxcp-gentoo-overlay) with the latest version of x11-wm/notion and my own project dev-java/recMD5. Go to the <a href="https://github.com/moaxcp/moaxcp-gentoo-overlay">overlay</a> and follow the README.md for instructions on using the [overlay](https://github.com/moaxcp/moaxcp-gentoo-overlay). Here are the notes from setting things up.
 

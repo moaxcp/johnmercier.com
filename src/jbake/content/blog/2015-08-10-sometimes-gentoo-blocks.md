@@ -1,7 +1,7 @@
-status=published
 type=post
 title=sometime gentoo blocks
 date=2015-08-10
+status=published
 ~~~~~~
 I was trying to update my system which resulted in a blocked package.
 

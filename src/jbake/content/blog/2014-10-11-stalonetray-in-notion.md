@@ -1,7 +1,7 @@
-status=published
 type=post
 title=stalonetray in notion
 date=2014-10-11
+status=published
 ~~~~~~
 Currently, stalonetray is installed and running from the .xinitrc file with:
 

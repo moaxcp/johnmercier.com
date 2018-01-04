@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Java Navive Access in Groovy
 date=2017-01-07
+status=published
 ~~~~~~
 
 Using [Java Native Access](https://github.com/java-native-access/jna) in a groovy script seems easy enough. Just use grape to grab the dependency and use it an a simple groovy script.

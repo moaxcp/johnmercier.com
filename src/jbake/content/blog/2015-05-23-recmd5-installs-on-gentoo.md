@@ -1,7 +1,7 @@
-status=published
 type=post
 title=recMD5 installs on gentoo
 date=2015-05-23
+status=published
 ~~~~~~
 <p>For the final step of the recmd5 project I want create a gentoo ebuild that will build recmd5 and<br />
 install it on the system for use.</p>

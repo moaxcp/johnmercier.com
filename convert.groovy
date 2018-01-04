@@ -44,10 +44,10 @@ source.eachFile { file ->
     def newFile = new File(destination.toString() + '/' + file.name)
 
     newFile.withWriter {
-        it.println 'status=published'
         it.println 'type=post'
         it.println "title=$header.title"
         it.println "date=${fileNameDate.format('yyyy-MM-dd')}"
+        it.println 'status=published'
         it.println '~~~~~~'
         it.write content
     }

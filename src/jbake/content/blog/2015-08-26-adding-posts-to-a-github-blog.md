@@ -1,7 +1,7 @@
-status=published
 type=post
 title=adding posts to a github blog
 date=2015-08-26
+status=published
 ~~~~~~
 I just had this great idea to use github.com's editor for creating posts in this blog. Here is how it works.
 

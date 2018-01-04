@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Checking HeapSortSelectHeap.java
 date=2015-05-09
+status=published
 ~~~~~~
 I had to fix my previous post on HeapSort because I used the wrong comparison operators for siftDownMax and siftDownMin. To check these I made heapify public and printed the heap before sorting in runList.
 

@@ -1,7 +1,7 @@
-status=published
 type=post
 title=BIOS Crashed
 date=2015-01-03
+status=published
 ~~~~~~
 After trying to delete a UEFI entry in my system bios my computer no longer starts up. It gets to the BIOS screen, the progress bar fills in, and they system doesn't start. Any attempt to get into the BIOS menu does not work. The screen says it is preparing the menu but it never opens. I have tried resetting the bios by unplugging it, taking out the battery, taking out the motherboard battery, and pressing the power button to remove any static power. The result is the same. It looks like I now need to replace the motherboard.
 

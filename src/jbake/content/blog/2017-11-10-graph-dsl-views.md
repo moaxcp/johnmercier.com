@@ -1,7 +1,7 @@
-status=published
 type=post
 title=graph-dsl views
 date=2017-11-10
+status=published
 ~~~~~~
 I'm adding a view method to graph-dsl. This method will generate a string which can be used 
 by graphviz to create an image which can be displayed. This is the fist time 

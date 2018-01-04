@@ -1,7 +1,7 @@
-status=published
 type=post
 title=notion with lxpanel
 date=2015-05-31
+status=published
 ~~~~~~
 Today I am starting a project to use lxpanel from lxde in the notion window manager. I am starting with 
 a fresh set of config files.

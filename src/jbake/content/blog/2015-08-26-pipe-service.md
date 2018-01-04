@@ -1,7 +1,7 @@
-status=published
 type=post
 title=pipe-service
 date=2015-08-26
+status=published
 ~~~~~~
 I have been working on an idea for a microservice called [pipe-service](https://github.com/moaxcp/pipe-service). It will take output from one service 
 and send it as input to another service. The services I have in mind are http(s) and the variety of ftp services.

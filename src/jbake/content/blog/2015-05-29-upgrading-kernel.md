@@ -1,7 +1,7 @@
-status=published
 type=post
 title=upgrading the kernel
 date=2015-05-29
+status=published
 ~~~~~~
 I'm following [this](https://wiki.gentoo.org/wiki/Kernel/Upgrade) guide to upgrade my gentoo kernel.
 

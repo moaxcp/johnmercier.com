@@ -1,7 +1,7 @@
-status=published
 type=post
 title=obnam on nixos
 date=2017-07-15
+status=published
 ~~~~~~
 [obnam](http://www.obnam.org) is a backup program I have used 
 [used](http://moaxcp.github.io/2015/09/09/obnam-on-gentoo.html) 

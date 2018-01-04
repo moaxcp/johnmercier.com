@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Fixing "Could not Open Install.log file!"
 date=2008-03-25
+status=published
 ~~~~~~
 While trying to clean up my computer today I found some programs that I couldn't uninstall. It seems that some installers need a Install.log file in order to uninstall some programs. Well I looked it up and here is the procedure I found:
 

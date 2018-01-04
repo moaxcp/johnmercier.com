@@ -1,7 +1,7 @@
-status=published
 type=post
 title=epson xp-950 on gentoo
 date=2017-01-02
+status=published
 ~~~~~~
 
 Adding a printer/scanner on gentoo can be easy or it can be hard. Here are some notes on how I did it.

@@ -1,7 +1,7 @@
-status=published
 type=post
 title=Gentoo on the Java x86 emulator
 date=2015-02-01
+status=published
 ~~~~~~
 Java has an <a href="http://jpc.sourceforge.net/download_application.html">x86 emulator</a> that claims to run linux. After attempting the demo links for other distributions that do not work I decided to try to install gentoo on it myself.
 

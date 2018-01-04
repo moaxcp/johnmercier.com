@@ -1,7 +1,7 @@
-status=published
 type=post
 title=ivy remote configs
 date=2017-06-20
+status=published
 ~~~~~~
 I found an issue in an ivy.xml that resulted in hamcrest not being added to the test configuration. The junit
 dependency looked like this:

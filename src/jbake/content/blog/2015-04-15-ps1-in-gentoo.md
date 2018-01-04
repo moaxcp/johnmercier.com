@@ -1,7 +1,7 @@
-status=published
 type=post
 title=$PS1 in gentoo
 date=2015-04-15
+status=published
 ~~~~~~
 <p>I finally changed my terminal to get rid of long paths. Right now it is</p>
 <blockquote><p>john@john-gentoo ~/Dropbox/programming/groovy/factordb/grails-app/conf $</p></blockquote>

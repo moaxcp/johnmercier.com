@@ -1,7 +1,7 @@
-status=published
 type=post
 title=sonar way is the wrong way
 date=2017-02-07
+status=published
 ~~~~~~
 
 Codenarc is a static code analysis tool for groovy. It is the same tool [sonarqube.com](http://sonarqube.com) uses to to publish its results.
