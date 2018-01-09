@@ -9,7 +9,8 @@ type: post
 published: true
 comments: true
 ---
-I had to fix my previous post on HeapSort because I used the wrong comparison operators for siftDownMax and siftDownMin. To check these I made heapify public and printed the heap before sorting in runList.
+I had to fix my previous post on HeapSort because I used the wrong comparison operators for siftDownMax and
+siftDownMin. To check these I made heapify public and printed the heap before sorting in runList.
 
     public static void runList(int[] list, Heap heap) {
         System.out.println("before: " + Arrays.toString(list));
@@ -21,6 +22,7 @@ I had to fix my previous post on HeapSort because I used the wrong comparison op
     }
 
 This results in:
+
     MINHEAP
     before: [5, 6, 4, 9, 1, 2, 0, 8, 7, 3]
     heap: [0, 1, 2, 7, 3, 5, 4, 8, 9, 6]

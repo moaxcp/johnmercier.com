@@ -1,0 +1,24 @@
+= $PS1 in gentoo
+John Mercier <moaxcp@gmail.com>
+2015-04-15
+:jbake-type: post
+:jbake-status: published
+I finally changed my terminal to get rid of long paths. Right now it is
+
+----
+john@john-gentoo ~/Dropbox/programming/groovy/factordb/grails-app/conf $
+
+----
+
+And after the change it is
+
+----
+john@john-gentoo conf $
+
+----
+
+This is what I added to my .bashrc
+
+----
+PS1="\[33[01;32m\]\u\[33[01;34m\] \W \$\[33[00m\]"
+----

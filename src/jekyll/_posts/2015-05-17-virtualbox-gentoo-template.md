@@ -18,6 +18,7 @@ I am creating a new virtualbox gentoo instance. This will be used as a template 
 Being able to increase the template may be important. I have had problems in the past with increasing cpus in a gentoo vm. Adding memory shouldn't be a problem. Adding harddrive space would be better if I used LVM.
 
 # Default apps
+
 So far I only need java and ssh.
 
 # make.conf
@@ -25,10 +26,11 @@ So far I only need java and ssh.
 For now I am using the settings I have on my local computer. This could cause problems with portability especially with cpu flags and the march option (corei7-avx).
 
 # Planned uses
+
 1. create a hadoop cluster with accumulo
---Since this is what I use at work
+* Since this is what I use at work
 2. create an ingestion server to run pentaho jobs
---Since this is what I do at work
+* Since this is what I do at work
 3. create a application server
---This is for all webapps that interact with the accumulo db
---crud/search services/apps
+* This is for all webapps that interact with the accumulo db
+* crud/search services/apps

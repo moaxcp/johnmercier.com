@@ -9,7 +9,9 @@ type: post
 published: true
 comments: true
 ---
-I've started a Google Code project for my [download manager](http://code.google.com/p/delta-utilities/). Here is the description so far:
+I've started a Google Code project for my
+[download manager](http://code.google.com/p/delta-utilities/). Here is
+the description so far:
 
 This program currently can:
 
@@ -23,4 +25,6 @@ Future goals:
 * Download a webpage and all of it's sources
 * Crawl the internet and access offline
 
-This is the first project I've ever made using an outside website to store everything. I tried to use sourceforge once but I couldn't figure out cvs. Now that netbeans does everything for me It's great.
+This is the first project I've ever made using an outside website to
+store everything. I tried to use sourceforge once but I couldn't figure
+out cvs. Now that netbeans does everything for me It's great.

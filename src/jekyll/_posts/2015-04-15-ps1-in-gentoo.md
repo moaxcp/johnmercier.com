@@ -9,9 +9,20 @@ type: post
 published: true
 comments: true
 ---
-<p>I finally changed my terminal to get rid of long paths. Right now it is</p>
-<blockquote><p>john@john-gentoo ~/Dropbox/programming/groovy/factordb/grails-app/conf $</p></blockquote>
-<p>And after the change it is</p>
-<blockquote><p>john@john-gentoo conf $</p></blockquote>
-<p>This is what I added to my .bashrc</p>
-<blockquote><p>PS1="\[33[01;32m\]\u\[33[01;34m\] \W \$\[33[00m\]"</p></blockquote>
+I finally changed my terminal to get rid of long paths. Right now it is
+
+```
+john@john-gentoo ~/Dropbox/programming/groovy/factordb/grails-app/conf $
+```
+
+And after the change it is
+
+```
+john@john-gentoo conf $
+```
+
+This is what I added to my .bashrc
+
+```
+PS1="\[33[01;32m\]\u\[33[01;34m\] \W \$\[33[00m\]"
+```

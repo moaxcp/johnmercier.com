@@ -16,7 +16,8 @@ change symlink for /usr/src/linux to new sources
         eselect kernel list
         eselect kernel set ${from list}
 
-Interestingly, my system is running 3.17.8-gentoo-r1 and the latest installed sources is linux-3.18.12-gentoo but only the latest is displayed in the kernel listing.
+Interestingly, my system is running 3.17.8-gentoo-r1 and the latest installed sources is linux-3.18.12-gentoo but only
+the latest is displayed in the kernel listing.
 
         john-gentoo src # ls -l
         total 8
@@ -46,9 +47,11 @@ Now to building the kernel. I have a sript that will build the kernel for my com
 
         genkernel --menuconfig --lvm --mdadm --makeopts="-j9 -l8" all
 
-This will enable lvm, mdadm and let me look at the menu. The make opts will build the kernel faster and use all of the cores in my processor.
+This will enable lvm, mdadm and let me look at the menu. The make opts will build the kernel faster and use all of the
+cores in my processor.
 
-Next I need to upgrade grub. The grub settings are located in /etc/default/grub. I needed to change the settings for my kernel and they still should be valid.
+Next I need to upgrade grub. The grub settings are located in /etc/default/grub. I needed to change the settings for my
+kernel and they still should be valid.
 
         GRUB_CMDLINE_LINUX="domdadm dolvm real_root=/dev/vg0/home resume=/dev/vg0/swap"
         GRUB_DISABLE_LINUX_UUID=true
@@ -59,4 +62,7 @@ Rebuild the grub config for the new kernel.
 
 Now to restart.
 
-After restarting X would not start. I needed to setup my nvidia drivers again following [this](https://wiki.gentoo.org/wiki/NVIDIA_Driver_with_Optimus_Laptops) guide. I'm not sure how things worked before because I didn't have a xorg.conf and I definately didn't use an edid firmware for the monitor. Now I am glad to say my kernel is current and X starts.
+After restarting X would not start. I needed to setup my nvidia drivers again following
+[this](https://wiki.gentoo.org/wiki/NVIDIA_Driver_with_Optimus_Laptops) guide. I'm not sure how things worked before
+because I didn't have a xorg.conf and I definately didn't use an edid firmware for the monitor. Now I am glad to say my
+kernel is current and X starts.

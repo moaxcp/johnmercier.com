@@ -9,9 +9,13 @@ type: post
 published: true
 comments: true
 ---
-I created an [gentoo overlay](https://github.com/moaxcp/moaxcp-gentoo-overlay) with the latest version of x11-wm/notion and my own project dev-java/recMD5. Go to the <a href="https://github.com/moaxcp/moaxcp-gentoo-overlay">overlay</a> and follow the README.md for instructions on using the [overlay](https://github.com/moaxcp/moaxcp-gentoo-overlay). Here are the notes from setting things up.
+I created an [gentoo overlay](https://github.com/moaxcp/moaxcp-gentoo-overlay) with the latest version of x11-wm/notion
+and my own project dev-java/recMD5. Go to the <a href="https://github.com/moaxcp/moaxcp-gentoo-overlay">overlay</a> and
+follow the README.md for instructions on using the [overlay](https://github.com/moaxcp/moaxcp-gentoo-overlay). Here are
+the notes from setting things up.
 
-I'm going through this [tutorial](https://wiki.gentoo.org/wiki/Overlay/Local_overlay) for creating an overlay. The base directory is
+I'm going through this [tutorial](https://wiki.gentoo.org/wiki/Overlay/Local_overlay) for creating an overlay. The base
+directory is
 
     /usr/local/portage/moaxcp
 

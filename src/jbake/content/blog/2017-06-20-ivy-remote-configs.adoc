@@ -1,0 +1,15 @@
+= ivy remote configs
+John Mercier <moaxcp@gmail.com>
+2017-06-20
+:jbake-type: post
+:jbake-status: published
+I found an issue in an ivy.xml that resulted in hamcrest not being added to the test configuration. The junit
+dependency looked like this:
+
+----
+<dependency org="junit" name="junit" rev="4.12" conf="test->master"/>
+----
+
+The problem is `test-&gt;master` means only get the main artifacts from the remote dependency (no transitives). The
+fix is to change `test-&gt;master` to `test-&gt;default`. `master` and `default` are the only two values available for a
+maven repository.

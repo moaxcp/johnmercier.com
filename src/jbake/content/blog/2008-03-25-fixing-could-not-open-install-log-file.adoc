@@ -1,0 +1,17 @@
+= Fixing "Could not Open Install.log file!"
+John Mercier <moaxcp@gmail.com>
+2008-03-25
+:jbake-type: post
+:jbake-status: published
+While trying to clean up my computer today I found some programs that I
+couldn't uninstall. It seems that some installers need a Install.log
+file in order to uninstall some programs. Well I looked it up and here
+is the procedure I found:
+
+. Open the directory where the program is installed.
+. Move (cut and paste somewhere else) the "install.log" to a different directory.
+. Now, double click the uninstaller
+. It will ask you to open the installation log. Locate to the "install.log" file on your desktop.
+. Now, uninstall will work fine and you can uninstall the program.
+
+This works great.

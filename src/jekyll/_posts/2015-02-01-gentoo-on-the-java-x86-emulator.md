@@ -9,22 +9,23 @@ type: post
 published: true
 comments: true
 ---
-Java has an <a href="http://jpc.sourceforge.net/download_application.html">x86 emulator</a> that claims to run linux. After attempting the demo links for other distributions that do not work I decided to try to install gentoo on it myself.
+Java has an [x86 emulator](http://jpc.sourceforge.net/download_application.html) that claims to run linux. After
+attempting the demo links for other distributions that do not work I decided to try to install gentoo on it myself.
 
-1. create a disk from the disks menu.
+# create a disk from the disks menu.
 
     hda 2gb
 
-2. start jpc
+# start jpc
 
     java -jar JPCApplication.jar -boot cdrom -cd
     rom gentoo\install-x86-minimal-20141209.iso -hda gentoo\hda.imgj
 
 Note: could not use absolute paths (bad programming for c:)
 
-3. File -> Start
+# File -> Start
 
-4. Error
+# Error
 
 ```
 C:\Users\megan\Dropbox\Software\jcp>java -jar JPCApplication.jar -boot cdrom -cd
@@ -114,7 +115,7 @@ Jan 31, 2015 10:05:20 PM org.jpc.emulator.motherboard.Bios print
 INFO: *** int 15h function AX=e980, BX=0000 not yet supported!
 ```
 
-5. Started damn small linux
+# Started damn small linux
 
     java -jar JPCApplication.jar -boot cdrom -cd rom dsl\dsl-4.4.10.iso -hda gentoo\gentoo.img
 
@@ -129,25 +130,29 @@ CodeCache: size=245760Kb used=239785Kb max_used=240710Kb free=5974Kb
  compilation: enabled
  ```
  
-6. Restarted damn small linux
+# Restarted damn small linux
 
     java -XX:ReservedCodeCacheSize=2048m -jar JPCApplication.jar -boot cdrom -cdrom dsl\dsl-4.4.10.iso -hda gentoo\gentoo.img
 
 This is still not starting correctly. Also noticed uptime was 45 minutes after about 10 minutes.
 
-7. Switching to System Rescue CD
+# Switching to System Rescue CD
 
     java -XX:ReservedCodeCacheSize=2048m -jar JPCApplication.jar -boot cdrom -cdrom gentoo\systemrescuecd-x86-4.4.1.iso -hda gentoo\gentoo.img
 
 Not working!
 
-8. Damn Small Linux in text mode (dsl 2)
+# Damn Small Linux in text mode (dsl 2)
 
 Works in run level 2!
 
-9. After looking into the ethernet setup I found that an internal network can be setup with the -net argument but it only works between two vms on the same computer. It doesn't actually connect to the internet through the host system.
+ After looking into the ethernet setup I found that an internal network can be setup with the -net argument but it only
+ works between two vms on the same computer. It doesn't actually connect to the internet through the host system.
 
-Since this emulator cannot connect to the internet. I have to rethink the usefulness of jpc. If it is not possible to setup a network how can it be used for any form of processing? It either needs to have networking or access to files on the host system. It needs I/O to the host system other than the keyboard, mouse, and monitor. It may be possible to forward everything from the EthernetHubServer to the host system network card somehow in java but I'm not sure how.
+Since this emulator cannot connect to the internet. I have to rethink the usefulness of jpc. If it is not possible to
+setup a network how can it be used for any form of processing? It either needs to have networking or access to files on
+the host system. It needs I/O to the host system other than the keyboard, mouse, and monitor. It may be possible to
+forward everything from the EthernetHubServer to the host system network card somehow in java but I'm not sure how.
 
 This was a fun experiment but JPC is only useful for playing dos games.
 

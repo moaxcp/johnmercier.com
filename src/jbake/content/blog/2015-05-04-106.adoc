@@ -1,0 +1,28 @@
+= Negative Lookahead Regex
+John Mercier <moaxcp@gmail.com>
+2015-05-04
+:jbake-type: post
+:jbake-status: published
+Take a list of languages:
+
+* English
+* French
+* Spanish
+* Portugues
+
+And you want a regex that matches everything except English
+
+== using negative lookahead
+
+----
+(?im)^(?!English).+$
+
+----
+
+using only
+
+----
+(?!English).+
+----
+
+will not work.

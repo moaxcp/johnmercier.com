@@ -9,7 +9,10 @@ type: post
 published: true
 comments: true
 ---
-While trying to clean up my computer today I found some programs that I couldn't uninstall. It seems that some installers need a Install.log file in order to uninstall some programs. Well I looked it up and here is the procedure I found:
+While trying to clean up my computer today I found some programs that I
+couldn't uninstall. It seems that some installers need a Install.log
+file in order to uninstall some programs. Well I looked it up and here
+is the procedure I found:
 
 1. Open the directory where the program is installed.
 2. Move (cut and paste somewhere else) the "install.log" to a different directory.

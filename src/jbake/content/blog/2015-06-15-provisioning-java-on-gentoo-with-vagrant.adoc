@@ -1,0 +1,6 @@
+= provisioning java on gentoo-with-vagrant
+John Mercier <moaxcp@gmail.com>
+2015-06-15
+:jbake-type: post
+:jbake-status: published
+I wrote a https://github.com/moaxcp/fileServices/blob/master/Vagrantfile[small script] that will provision https://packages.gentoo.org/package/dev-java/oracle-jdk-bin[oracle-jdk-bin-1.8.0] on my https://atlas.hashicorp.com/moaxcp/boxes/gentoo64/versions/0.0.2[gentoo64] box. The script can be called multiple times through `vagrant reload --provision` and it will only install the jdk once. Oracle's jdk has some restrictions. On gentoo the license needs to be accepted and a file needs to be manually downloaded and added to `/usr/portage/distfiles`. My Vagrantfile adds a share to `/usr/portage/distfiles` on the guest machine in `/distfiles`. The shell script will copy the file if it doesn't exist, accept the license, and install the package. The only requirement is `jdk-8u45-linux-x64.tar.gz` needs to be located at '/usr/portage/distfiles'. This can be changed in your own project by editing the share in your Vagrantfile.

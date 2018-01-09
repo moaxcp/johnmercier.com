@@ -1,0 +1,21 @@
+= Creating factordb
+John Mercier <moaxcp@gmail.com>
+2015-04-14
+:jbake-type: post
+:jbake-status: published
+I started creating a new app called https://github.com/moaxcp/factordb[factordb]. I am using the new grails 3.0.1. I
+have a few ideas for what it should do
+
+* add new numbers and their factors
+* this will be validated by multiplying the two numbers (no authentication needed)
+* web service to add new numbers
+* add prime numbers
+* These are numbers that cannot be factored
+* These will be submitted as requests, added once processed
+* maintain a list of numbers to factor
+* maintain factoring program which distributes jobs
+* start, stop, send numbers to factor
+* display stats for factoring program
+
+These are just some ideas for now. The factoring program will be a separate project based off of
+https://github.com/moaxcp/umuc-team-factor[umuc-team-factor].
