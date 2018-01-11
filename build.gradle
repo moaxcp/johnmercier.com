@@ -1,6 +1,7 @@
 
 plugins {
     id 'org.jbake.site' version '1.0.0'
+    id 'org.ajoberstar.git-publish' version '0.4.0-rc.2'
 }
 
 
@@ -9,3 +10,18 @@ repositories {
 }
 
 tasks.assemble.dependsOn 'bake'
+
+gitPublish {
+    repoUri = 'https://github.com/moaxcp/moaxcp.github.io.git'
+
+    branch = 'master'
+
+    contents {
+        from bake.output
+        from 'src/github/CNAME'
+    }
+
+    commitMessage = 'Publishing from gradle.'
+}
+
+tasks.gitPublishPush.dependsOn 'bake'
