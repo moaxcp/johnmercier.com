@@ -1,3 +1,9 @@
 jdk: oraclejdk8
+env:
+  global:
+  - secure: dqyrAaajNzLuM1jlGfiRtePCpcipqPJFnr3RdR/M6rPMoDttTirJQnfTK5V9QfwbU9QuL0p5svFK5zxk6Utg4QfWCyyjCKs2A1DC7Dd1LYGo3RLP4nsCRU9JGX1bYJHhvymPcnfUbAOXp6JBmQ0qvQ6J+5esVkPiMJMChXPiZg2WpuN/XL7QWOOfvq2eVDN+8tSYTbTgf1D8ezx7xTFze+eax4f66UMZmkB7Xwhx1MGmvuMHjbCBmBfOj/dh02IUOqbfQhf4alzAocrdLQ0AIJj5bPow54AHOuxObgHZFc27/vwyXqDtgKHCtK/XpM2+7mWuegMPb/YubJppyXjKqiYCFkEDiaVkTtI9bJyny5P0Qxa7VojygXkpyjpp/6FLfGhd90BwQCwpVRWTgCl6zF6BCH7PamF6OTQ54xgASLCR2G/46mw4d61Og5Eb4Rd5CTmluAOnFuFWhSP+TFk8pQ1itfGq3Lspe8Nmv3nTP6Yufr3403pkQ+AK7umXQ5sYX8A8DoDsGRv9LO/r9yuT+Vpa6KEz2k1rzhzreXduJtlsKLB1jfzhBvbqmVq4y2aTLUlr4ZtkHV72elnRB/DktIYklJTD5hw0blG2AP3BcP7/Z66JzfTpzcP/0zVJx8OI9b8IhFaXF9sue2XpwGOR6WD0MCdVf6hkBb5v3qaXReg=
 script:
   - ./gradlew build
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "travis-ci"
+  - ./gradlew -Dgithub.token=$GITHUB_TOKEN gitPublishPush
