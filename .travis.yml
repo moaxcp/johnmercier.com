@@ -6,4 +6,4 @@ script:
 - "./gradlew build"
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "travis-ci"
-- "./gradlew -Dgithub.token=$GITHUB_TOKEN --info gitPublishPush"
+- "./gradlew -Dgithub.token=$GITHUB_TOKEN --debug gitPublishPush"
