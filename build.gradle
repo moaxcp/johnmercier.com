@@ -11,10 +11,8 @@ repositories {
 
 tasks.assemble.dependsOn 'bake'
 
-def github = System.getProperty('github.token') ? System.getProperty('github.token') + '@' : ''
-
 gitPublish {
-    repoUri = "https://${github}github.com/moaxcp/moaxcp.github.io.git"
+    repoUri = "https://github.com/moaxcp/moaxcp.github.io.git"
 
     branch = 'master'
 
