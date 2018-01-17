@@ -1,126 +1,130 @@
----
-title: Switching From Jekyll To JBake
-layout: post
-comments: true
----
+= Switching From Jekyll To JBake
+John Mercier <moaxcp@gmail.com>
+2018-01-04
+:jbake-type: post
+:jbake-status: published
+In a previous post http://jbake.org/[JBake] was added to nixos. Now it is time to convert this blog to
+http://jbake.org/[JBake]. As with any user blog hosted by https://github.com[github] the content needs to be
+posted to a git repository for the user. My repository is https://github.com/moaxcp/moaxcp.github.io[moaxcp.github.com].
+I'm using a https://github.com/moaxcp/johnmercier.com[second repository] for the sources of the site.
 
-In a previous post [JBake](http://jbake.org/) was added to nixos. Now it is time to convert this blog to
-[JBake](http://jbake.org/). As with any user blog hosted by [github](https://github.com) the content needs to be
-posted to a git repository for the user. My repository is [moaxcp.github.com](https://github.com/moaxcp/moaxcp.github.io).
-I'm using a [second repository](https://github.com/moaxcp/johnmercier.com) for the sources of the site.
+There are a few tools I want to use. https://gradle.org/[Gradle] to build the
+https://github.com/moaxcp/johnmercier.com[sources] and publish the blog to github.
+https://travis-ci.org/[Travis CI] to run the https://gradle.org/[Gradle] tasks anytime the
+https://github.com/moaxcp/johnmercier.com[sources] change.
 
-There are a few tools I want to use. [Gradle](https://gradle.org/) to build the
-[sources](https://github.com/moaxcp/johnmercier.com) and publish the blog to github.
-[Travis CI](https://travis-ci.org/) to run the [Gradle](https://gradle.org/) tasks anytime the
-[sources](https://github.com/moaxcp/johnmercier.com) change.
-
-1. Convert posts from jekyll Markdown format to JBake asciidoc format
-2. Setup Gradle to build and publish the blog
-3. Setup travis-ci to update the blog when sources change
+. Convert posts from jekyll Markdown format to JBake asciidoc format
+. Setup Gradle to build and publish the blog
+. Setup travis-ci to update the blog when sources change
 
 To get started I had to setup gradle and JBake in a workflow for converting posts and viewing the site.
 
-# Setup Gradle
+== Setup Gradle
 
 Gradle has a JBake plugin that can be used to bake the site.
 
 This is good for automating the creation of the site using gradle. Here is an example build.gradle file using the
 plugin:
 
-```
+----
 plugins {
     id 'org.jbake.site' version '1.0.0'
 }
-
 
 repositories {
     jcenter()
 }
 
 tasks.assemble.dependsOn 'bake'
-```
+
+----
 
 JBake sources need to be created in `src/jbake`. This is done with `jbake -i`.
 
-```
+----
 mkdir -p src/jbake
 cd src/jbake
 jbake -i
-```
+
+----
 
 Once the sources are setup gradle can bake the site.
 
-```
+----
 ./gradlew build
-```
 
-# Using JBake
+----
+
+== Using JBake
 
 A few changes need to be made to `jbake.properties`. First `site.host` needs to point to the host url of the site.
 
-```
+----
 site.host=http://johnmercier.com
-```
+
+----
 
 Next the destination folder needs to match where gradle will build the jbake site.
 
-```
+----
 destination.folder=../../build/jbake
-```
+
+----
 
 With these settings `jbake` commands will match the output directory for gradle.
 
 Here is the complete `jbake.properties` file.
 
-```
+----
 site.host=http://johnmercier.com
 render.tags=true
 render.sitemap=true
 destination.folder=../../build/jbake
-```
 
-## Viewing content
+----
+
+=== Viewing content
 
 There are a few options to viewing content. First, you can build with gradle and then navigate to index.html and open
 it in a browser. Another option is `jbake -s`. This command will serve the content locally and update the content when
 the source files change. Gradle does not support this option so `jbake -s` needs to be executed manually. This is the
 best option but jbake doesn't seem to update content when the templates change.
 
-## Workflow
+=== Workflow
 
-1. start jbake server `jbake -s`
-2. Open browser to localhost:8082
-3. Convert posts and refresh browser to view changes
+. start jbake server `jbake -s`
+. Open browser to localhost:8082
+. Convert posts and refresh browser to view changes
 
 Note: when changing templates restart the server
 
-# Converting Posts
+== Converting Posts
 
 Now that there is an established workflow to view the blog the posts can be converted. The blog posts are written in
 Markdown with a jekyll header. A simple groovy script can be used to read the files and convert them.
 
-## Jekyll files
+=== Jekyll files
 
 Jekyll posts are added under src/jekyll in the gradle project. The file name starts with the date followed by the
 title. For example:
 
-```
+----
 2015-05-30-notion-ebuild.md
-```
+----
 
 The following code gets this information.
 
-```
+----
 Date fileNameDate = Date.parse('yyyy-MM-dd', file.name.substring(0, 10))
 String fileNameTitle = file.name.substring(11, file.name.lastIndexOf('.'))
-```
+----
 
-## JBake files
+=== JBake files
 
 In the jekyll blog all posts are in one dir. The file names start with a timestamp. When the site is generated all post
 URIs convert the timestamps into directories. A file named `2015-07-12-post-title.md` has a URI of
 2015/07/12/post-title.html. In JBake it would have a URI of 2015-07-12-post-title.html. This can cause problems for
-posts that have comments in [disqus](https://disqus.com/) because the uri is also an id. For this blog I am organizing
+posts that have comments in https://disqus.com/[disqus] because the uri is also an id. For this blog I am organizing
 files by year. Each year has a directory with all the posts prefixed with month and day (MM-dd). It would be nice to
 have the disqus id match for old posts and organize the posts in any way possible.
 
@@ -129,30 +133,30 @@ allow for custom metadata. A disqus id can be added to each post which matches t
 check for this id. If it is present use it. If the id is not present default to the uri. I'm not going to implement
 this solution though since I have no comments.
 
-## Reading the posts
+=== Reading the posts
 
 Reading jekyll's markdown files involves reading the header and reading the content.
 
 The header is always at the top of the file starting and ending with `---`. The header is in yaml format. The dashes
-and yaml is the [Front Matter](https://jekyllrb.com/docs/frontmatter/). This gets the header text as a string:
+and yaml is the https://jekyllrb.com/docs/frontmatter/[Front Matter]. This gets the header text as a string:
 
-```
+----
 assert file.text.startsWith('---\n'), file.name
 def removeStart = file.text.substring(4)
 assert removeStart.contains('---\n'), file.name
 def headerEnd = removeStart.indexOf('---\n')
 def headerText = removeStart.substring(0, headerEnd)
-```
+----
 
 The rest of the text is the Markdown content.
 
-```
+----
 def content = removeStart.substring(headerEnd + 4)
-```
+----
 
-Jekyll's header is in yaml format Yaml can be read in groovy using [snakeyaml](https://bitbucket.org/asomov/snakeyaml).
+Jekyll's header is in yaml format Yaml can be read in groovy using https://bitbucket.org/asomov/snakeyaml[snakeyaml].
 
-```
+----
 @Grab('org.yaml:snakeyaml:1.19')
 import org.yaml.snakeyaml.Yaml
 
@@ -160,12 +164,12 @@ import org.yaml.snakeyaml.Yaml
 
 Yaml parser = new Yaml()
 Map header = parser.load(headerText)
-```
+----
 
-### Alternative: using atlasian commonmark
+==== Alternative: using atlasian commonmark
 
 An alternative I tried using to read the files is atlassian's
-[commonmark](https://github.com/atlassian/commonmark-java) libraries. commonmark is able to fully parse the header and
+https://github.com/atlassian/commonmark-java[commonmark] libraries. commonmark is able to fully parse the header and
 content as a Markdown abstract syntax tree. The tree can be manipulated which can be very useful in fixing the Markdown
 before posts to asciidoc. Unfortunately, commonmark does not have the ability to render the tree back into Markdown. I
 had to go a different route but this is what I learned about commonmark.
@@ -173,7 +177,7 @@ had to go a different route but this is what I learned about commonmark.
 To setup commonmark I added the dependencies for commonmark and the front matter extension. The front matter extension
 can read the header.
 
-```
+----
 @Grab('com.atlassian.commonmark:commonmark:0.10.0')
 @Grab('com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.10.0')
 
@@ -181,28 +185,28 @@ import org.commonmark.parser.Parser
 import org.commonmark.renderer.text.TextContentRenderer
 import org.commonmark.node.*
 import org.commonmark.ext.front.matter.*
-```
+----
 
 Next, the Parser is created with the front matter extension.
 
-```
+----
 commonmark = Parser.builder()
         .extensions([YamlFrontMatterExtension.create()])
         .build()
-```
+----
 
 Parsing a document is easy with the parser and two visitors.
 
-```
+----
 Document document = commonmark.parse(file.text)
 Map data = getHeaderAndUnlink(document)
 convertHeadings(document)
-```
+----
 
 `getHeaderAndUnlink` uses a `YamlFrontMatterVisitor` to parse the header and remove it from the document. This is so
 the document can be rendered without the header.
 
-```
+----
 Map getHeaderAndUnlink(Document document) {
     def visitor = new AbstractVisitor() {
         YamlFrontMatterVisitor yamlVisitor = new YamlFrontMatterVisitor()
@@ -220,12 +224,12 @@ Map getHeaderAndUnlink(Document document) {
     document.accept(visitor)
     return visitor.data
 }
-```
+----
 
 `convertHeadings` increases all of the headings levels by 1. This is because in an asciidoc post the title should be
 the only level 1 heading in the file.
 
-```
+----
 void convertHeadings(Document document) {
     document.accept(new AbstractVisitor() {
         void visit(Heading heading) {
@@ -234,24 +238,24 @@ void convertHeadings(Document document) {
         }
     })
 }
-```
+----
 
 The problem now is how to render the Markdown content again so it may be converted to asciidoc. This currently doesn't
 seem possible. I tried using
 
-```
+----
 TextContentRenderer.builder().build().render(document)
-```
+----
 
 This only renders the text without Markdown formatting. Until commonmark gets a MarkdownRenderer it will not be of
 help. This could be a good open source contribution in the future.
 
-## Converting Jekyll Markdown to JBake Markdown Instead of AsciiDoc
+=== Converting Jekyll Markdown to JBake Markdown Instead of AsciiDoc
 
 At this point there is enough information to make a script which can convert the files to JBake's Markdown format. Here
 is the full script:
 
-```
+----
 @Grab('org.yaml:snakeyaml:1.19')
 import org.yaml.snakeyaml.Yaml
 
@@ -306,78 +310,77 @@ source.eachFile { file ->
         it.write content
     }
 }
-```
+----
 
 This was enough to see what the content looks like in JBake. The problem with markdown in JBake is all newlines are
 displayed. I couldn't figure out how to fix this even with the pegdown extensions enabled. Converting to asciidoc is
 my next choice.
 
-## Converting Jekyll Markdown to AsciiDoc
+=== Converting Jekyll Markdown to AsciiDoc
 
-### Converting the Header
+==== Converting the Header
 
 The header can be converted to an asciidoc format with JBake attibutes.
 
-```
+----
 it.println "= $header.title"
 it.println 'John Mercier'
 it.println fileNameDate.format('yyyy-MM-dd')
 it.println ':jbake-type: post'
 it.println ':jbake-status: published'
-```
+----
 
 As mentioned earlier the title should be the only level 1 heading. The rest need to be converted. Without a parser I
 used regex to fix the headings.
 
-```
+----
 content = content.replaceAll('(?m)^####\\s', '##### ')
 content = content.replaceAll('(?m)^###\\s', '#### ')
 content = content.replaceAll('(?m)^##\\s', '### ')
 content = content.replaceAll('(?m)^#\\s', '## ')
-```
+----
 
 Using regex where a parser is required is a common mistake programmers make. In this case the mistake is in codeblocks.
 Any codeblock containing `#` will be read as a Markdown heading.
 
-```
-# comments
-```
+----
+## comments
+----
 
 would become
 
-```
-## comments
-```
+----
+### comments
+----
 
 I'm willing to accept this risk and fix any issues manually.
 
-### Converting the content
+==== Converting the content
 
 It would be really difficult to write an entire solution to this problem. In my search for a solution I found
-[bodiam/markdown-to-asciidoc](https://github.com/bodiam/markdown-to-asciidoc). markdown-to-asciidoc is able to convert
+https://github.com/bodiam/markdown-to-asciidoc[bodiam/markdown-to-asciidoc]. markdown-to-asciidoc is able to convert
 a Markdown string into asciidoc. This is exactly what I need.
 
 First the script grabs the dependency and imports the Converter class.
 
-```
+----
 @Grab('nl.jworks.markdown_to_asciidoc:markdown_to_asciidoc:1.0')
 import nl.jworks.markdown_to_asciidoc.Converter
-```
+----
 
 The markdown content can be converted to asciidoc in one line.
 
-```
+----
 it.write Converter.convertMarkdownToAsciiDoc(content)
-```
+----
 
-## The final script
+=== The final script
 
 This is the resulting script
 
-```
+----
 @Grab('org.yaml:snakeyaml:1.19')
 @Grab('nl.jworks.markdown_to_asciidoc:markdown_to_asciidoc:1.0')
-
 
 import org.yaml.snakeyaml.Yaml
 import nl.jworks.markdown_to_asciidoc.Converter
@@ -438,26 +441,25 @@ source.eachFile { file ->
         it.write Converter.convertMarkdownToAsciiDoc(content)
     }
 }
-```
+----
 
-## Adding images
+=== Adding images
 
 Images from jekyll are simply placed into the assets directory in JBake. Many of the images in my posts use html tags.
 This works in Markdown but not in AsciiDoc. The converter does not convert html tags to AsciiDoc and AsciiDoc does not
 recognize the tags. As a result the tags are in plain text when viewing the posts. These posts were fixed manually to
 use Markdown instead of html.
 
-# Gradle git-publish
+== Gradle git-publish
 
 Publishing posts can be accomplished using a gradle plugin called git-publish. After adding the plugin a task called
 `gitPublishPush` is added which can publish the blog.
 
-```
+----
 plugins {
     id 'org.jbake.site' version '1.0.0'
     id 'org.ajoberstar.git-publish' version '0.4.0-rc.2'
 }
-
 
 repositories {
     jcenter()
@@ -479,24 +481,24 @@ gitPublish {
 }
 
 tasks.gitPublishPush.dependsOn 'bake'
-```
+----
 
-# Automatic publishing with travis-ci
+== Automatic publishing with travis-ci
 
 Travis first needs a github token. This token will be used to authenticate travis-ci when it tries to push changes to
-the [repo](https://github.com/moaxcp/johnmercier.com). I followed
-[this](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) guide to create a
+the https://github.com/moaxcp/johnmercier.com[repo]. I followed
+https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/[this] guide to create a
 token. Once the token is create it can be added to the `.travis.yml` using
 [The Travis Client(https://github.com/travis-ci/travis.rb):
 
-```
+----
 travis encrypt 'GITHUB_TOKEN=<generated token>' --add
-```
+----
 
 The token will be set as an environment variable when travis-ci runs. It can be passed to gradle as a system property
 and used as credentials in `gitPublishPush`. The entire travis-ci file looks like this:
 
-```
+----
 jdk: oraclejdk8
 env:
   global:
@@ -506,18 +508,17 @@ script:
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "travis-ci"
 - "./gradlew -Dorg.ajoberstar.grgit.auth.username=$GITHUB_TOKEN gitPublishPush"
-```
+----
 
 `org.ajoberstar.grgit.auth.username` is the system property git-publish uses to authorize with github. The full
 build.gradle file looks like this.
 
-```
+----
 
 plugins {
     id 'org.jbake.site' version '1.0.0'
     id 'org.ajoberstar.git-publish' version '0.4.0-rc.2'
 }
-
 
 repositories {
     jcenter()
@@ -539,9 +540,9 @@ gitPublish {
 }
 
 tasks.gitPublishPush.dependsOn 'bake'
-```
+----
 
-# Conclusion
+== Conclusion
 
 We live in a world where there are all sorts of solutions to software problems. Finding one that works is not always
 obvious. This is the solution I found for my problem and I am happy with it. Thanks for reading!
