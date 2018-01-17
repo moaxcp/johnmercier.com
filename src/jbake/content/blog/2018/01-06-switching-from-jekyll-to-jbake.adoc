@@ -1,6 +1,6 @@
 = Switching From Jekyll To JBake
 John Mercier <moaxcp@gmail.com>
-2018-01-04
+2018-01-16
 :jbake-type: post
 :jbake-status: published
 In a previous post http://jbake.org/[JBake] was added to nixos. Now it is time to convert this blog to
