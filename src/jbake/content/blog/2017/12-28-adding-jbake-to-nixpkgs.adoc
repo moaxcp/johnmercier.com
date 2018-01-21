@@ -2,6 +2,7 @@
 John Mercier <moaxcp@gmail.com>
 2017-12-28
 :jbake-type: post
+:jbake-tags: jbake, nixos
 :jbake-status: published
 http://jbake.org/[JBake] is a static site/blog generator. I have been
 using jekyll for this blog but I would like to try something new. My

@@ -1,0 +1,48 @@
+= Switching to groovy-mte in JBake
+2018-01-21
+:jbake-type: post
+:jbake-tags: jbake, groovy
+:jbake-status: draft
+
+One thing I really don't like about https://en.wikipedia.org/wiki/JavaServer_Pages[jsp] is that it looks like
+https://en.wikipedia.org/wiki/HTML[html]. The default engine for http://jbake.org/[JBake] is
+https://freemarker.apache.org/[freemaker]. Like many other template engines
+https://freemarker.apache.org/[freemaker] adds expressions to the html language. I would much rather work with
+something that looks like groovy so I'm going to try out groovy's
+http://docs.groovy-lang.org/latest/html/documentation/template-engines.html#_the_markuptemplateengine[MarkupTemplateEngine]
+as the templating engine for http://jbake.org/[JBake].
+
+== Using MarkupTemplateEngine
+
+http://docs.groovy-lang.org/latest/html/documentation/template-engines.html#_the_markuptemplateengine[groovy-mte]
+support allows developers to write templates in a groovy dsl rather than markup. Here is a basic example:
+
+----
+import groovy.text.markup.*
+
+def template = new MarkupTemplateEngine(new TemplateConfiguration()).createTemplate('''
+    html {
+        head {
+            title(pageTitle)
+        }
+        body {
+            h1(pageTitle)
+        }
+    }
+''')
+
+def model = [pageTitle:"Hello, World!"]
+
+template.make(model).writeTo(new PrintWriter(System.out))
+----
+
+The builder syntax allows for a more `groovy` like html, rather than using html tags. Running the script results in:
+
+----
+<html><head><title>Hello, World!</title></head><body><h1>Hello, World!</h1></body></html>
+----
+
+== Switching JBake to MarkupTemplateEngine
+
+The http://jbake.org/docs/2.5.1/#templates_directory[documentation] implies that templates and any assets need to be
+switched. There are also https://github.com/topics/jbake-template-project[examples] that can be used.

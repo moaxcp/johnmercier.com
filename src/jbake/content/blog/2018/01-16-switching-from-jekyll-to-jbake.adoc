@@ -2,6 +2,7 @@
 John Mercier <moaxcp@gmail.com>
 2018-01-16
 :jbake-type: post
+:jbake-tags: jbake, jekyll, groovy
 :jbake-status: published
 In a previous post http://jbake.org/[JBake] was added to nixos. Now it is time to convert this blog to
 http://jbake.org/[JBake]. As with any user blog hosted by https://github.com[github] the content needs to be
