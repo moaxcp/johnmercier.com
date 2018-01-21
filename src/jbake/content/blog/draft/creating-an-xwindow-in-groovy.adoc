@@ -1,0 +1,111 @@
+= Creating an X11 Window in Groovy
+2018-01-17
+:jbake-type: post
+:jbake-status: draft
+
+It is a strange idea but being able to use x11 in groovy could be neat for a lot of reasons. First, checkout
+http://groovyfx.org[groovyfx]. It is a dsl for https://en.wikipedia.org/wiki/JavaFX[javafx]. Could a dsl like
+this exist for x11? What about creating a window manager? First there needs to be a way to talk to and x11 server.
+https://en.wikipedia.org/wiki/Xlib[Xlib] is used for many programming languages. It is a native library written in the
+C programming language. It can be accessed in java with https://github.com/java-native-access/jna[Java Native Access].
+
+== Hello World Example
+
+https://github.com/java-native-access/jna[Java Native Access] allows developers to access native functions as if they
+were java methods. It can be used in a groovy script to access the standard Clib.
+
+.hello
+[source, groovy]
+----
+#!/usr/bin/env groovy
+
+@Grab(group='net.java.dev.jna', module='jna', version='4.5.1') //<1>
+
+import com.sun.jna.NativeLibrary
+import com.sun.jna.Platform
+
+class CLib {
+    static def lib = NativeLibrary.getInstance(Platform.isWindows() ? 'msvcrt' : 'c') //<2>
+    static def printf(format, args) { //<3>
+        lib.getFunction('printf').invokeVoid([format, args])
+    }
+}
+
+CLib.printf("Hello, World!\n") //<4>
+----
+<1> Grab jna using groovy grape dependency manager
+<2> Get instance of library from jna
+<3> Define `printf` function as a static method
+<4> Call `printf`
+
+Running the script results in:
+
+----
+john@n1 ~/p/g/jna (master)> ./hello
+Hello, World!
+----
+
+== NixOS Setup
+
+== Creating an X11 Window in C
+
+== Creating an X11 Window in Groovy
+
+----
+#!/usr/bin/env nix-shell
+/*
+#!nix-shell -i groovy
+#!nix-shell deps.nix
+*/
+
+@Grapes(
+    @Grab(group='net.java.dev.jna', module='jna-platform', version='4.5.1')
+)
+
+import com.sun.jna.platform.unix.X11
+import com.sun.jna.NativeLong
+
+X11.INSTANCE.with {
+
+    def display = XOpenDisplay(null)
+    def screen = XDefaultScreen(display)
+    def root = XDefaultRootWindow(display)
+    def window = XCreateSimpleWindow(display, root, 100, 100, 275, 120, 1, 1, 0)
+    def gc = XCreateGC(display, window, new NativeLong(0), null)
+
+    XSetForeground(display, gc, new NativeLong(0))
+    XSetBackground(display, gc, new NativeLong(100))
+    XSelectInput(display, window, new NativeLong(KeyPressMask | ExposureMask))
+    XMapRaised(display, window)
+
+    def start = System.currentTimeMillis()
+
+    while(System.currentTimeMillis() - start < 10 * 1000) {
+        def event = new X11.XEvent()
+        XNextEvent(display, event)
+        switch(event.type) {
+            case Expose:
+                if(event.xexpose.count == 0) {
+                    //XDrawImageString(event.xexpose.display, event.xexpose.window, gc, 105, 65, ...)
+                }
+                break
+            case MappingNotify:
+                //XRefreshKeybaordMapping(event)
+                break
+
+            case KeyPress:
+                //int keycount = XLookupString(event, ...
+                //finish application
+                break
+        }
+    }
+
+    XFreeGC(display, gc)
+    XDestroyWindow(display, window)
+    XCloseDisplay(display)
+}
+----
+
+https://github.com/java-native-access/jna[Java Native Access] comes with a partial implementation for using X11
+`com.sun.jna.platform.unix.X11`.
+
