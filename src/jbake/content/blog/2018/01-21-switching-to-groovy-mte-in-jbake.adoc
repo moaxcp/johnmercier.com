@@ -184,9 +184,9 @@ if(!post.summary) {
     def h = post.body.indexOf("<h")
     def p = post.body.indexOf("</div>")
     if(h > 0) {
-        post.summary = post.body.substring(0, h)
+        post.summary = post.body.substring(0, h) //<1>
     } else if(post.body.contains("</div>")) {
-        post.summary = post.body.substring(0, p + 7)
+        post.summary = post.body.substring(0, p + 7) //<2>
     }
 }
 ----
