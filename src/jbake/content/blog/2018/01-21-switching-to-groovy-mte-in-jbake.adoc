@@ -1,0 +1,283 @@
+= Switching to groovy-mte in JBake
+2018-01-21
+:jbake-type: post
+:jbake-tags: jbake, groovy
+:jbake-status: published
+
+One thing I don't like about https://en.wikipedia.org/wiki/JavaServer_Pages[jsp] is that it looks like
+https://en.wikipedia.org/wiki/HTML[html]. The default engine for http://jbake.org/[JBake] is
+https://freemarker.apache.org/[freemarker]. Like many other template engines
+https://freemarker.apache.org/[freemarker] adds expressions to the html language. I would much rather work with
+something that looks like groovy so I'm going to try out groovy's
+http://docs.groovy-lang.org/latest/html/documentation/template-engines.html#_the_markuptemplateengine[MarkupTemplateEngine]
+as the template engine for http://jbake.org/[JBake].
+
+== Using MarkupTemplateEngine
+
+http://docs.groovy-lang.org/latest/html/documentation/template-engines.html#_the_markuptemplateengine[groovy-mte]
+support in http://jbake.org/[JBake] allows developers to write templates in a groovy dsl rather than markup. Here is a
+basic example of how it works:
+
+[source, groovy]
+----
+import groovy.text.markup.*
+
+def template = new MarkupTemplateEngine(new TemplateConfiguration()).createTemplate('''
+    html {
+        head {
+            title(pageTitle)
+        }
+        body {
+            h1(pageTitle)
+        }
+    }
+''')//<1>
+
+def model = [pageTitle:"Hello, World!"] //<2>
+
+template.make(model).writeTo(new PrintWriter(System.out)) //<3>
+----
+<1> Create a template
+<2> Define a model
+<3> Make the results
+
+The builder syntax allows for a more `groovy` html. It is easy to recognize as html but, rather than writing all those
+html tags, developers can use groovy. Running the script results in:
+
+[source, html]
+----
+<html><head><title>Hello, World!</title></head><body><h1>Hello, World!</h1></body></html>
+----
+
+== Switching JBake to MarkupTemplateEngine
+
+The http://jbake.org/docs/2.5.1/#templates_directory[documentation] implies that changing templates means removing any
+old templates and replacing them with the new templates. Default assets should also be replaced. There are a number of
+example templates using the https://github.com/topics/jbake-template-project[jbake-template-project] tag on github. The
+https://github.com/ancho/jbake-example-project-groovy-mte[groovy-mte] example templates are somewhat outdated but it is
+a good starting point.
+
+=== Copy Template and Assets
+
+First, clone the groovy-mte project.
+
+----
+john@n1 ~/projects> git clone https://github.com/ancho/jbake-example-project-groovy-mte.git
+Cloning into 'jbake-example-project-groovy-mte'...
+remote: Counting objects: 250, done.
+remote: Total 250 (delta 0), reused 0 (delta 0), pack-reused 250
+Receiving objects: 100% (250/250), 1.61 MiB | 312.00 KiB/s, done.
+Resolving deltas: 100% (85/85), done.
+----
+
+Then remove the original `templates` and `assets` directories from the project.
+
+Then go into the project and copy the files to the site
+
+----
+john@n1 ~/projects> cd jbake-example-project-groovy-mte/
+john@n1 ~/p/jbake-example-project-groovy-mte (master)> ls
+assets  content  jbake.properties  LICENSE  README.md  templates
+john@n1 ~/p/jbake-example-project-groovy-mte (master)> cp -r templates ../johnmercier.com/src/jbake/
+john@n1 ~/p/jbake-example-project-groovy-mte (master)> ls assets/
+css  fonts  img  js
+john@n1 ~/p/jbake-example-project-groovy-mte (master)> cp -r assets ../johnmercier.com/src/jbake/
+----
+
+Bake the site and view the results.
+
+=== Issues
+
+There were a few issues I found
+
+==== tags.tpl
+
+posts without tags caused an error in `tags.tpl`.
+
+[source, groovy]
+----
+post.tags.contains(tag)
+----
+
+Needed to be changed to
+
+[source, groovy]
+----
+post.tags?.contains(tag)
+----
+
+==== jbake.properties
+
+jbake.properties needed some new properties
+
+[source, groovy]
+----
+site.contextPath=/
+blog.title=John Mercier
+blog.subtitle=A software developer interested in java, groovy, and nixos
+foundation.version=5.5.1
+----
+
+Without `site.contextPath` None of the pages could find assets. I have a feeling this could be removed and the
+templates could use content.rootpath instead. Using an absolute path like this makes it impossible to view the files
+locally without a server.
+
+== Improvements
+
+This got the site up and running with groovy-mte but I found a few improvements to make.
+
+=== menu.tpl
+
+The twitter and github accounts were hardcoded in the template. The template was changed to use jbake.properties
+
+.menu.tpl
+[source, groovy]
+----
+p(class:"title-contact"){
+    a(href:"https://twitter.com/$config.twitter"){
+        i(class:"foundicon-twitter"){}
+    }
+    a(href:"https://github.com/$config.github"){
+        i(class:"foundicon-github"){}
+    }
+}
+----
+
+.jbake.properties
+[source, groovy]
+----
+twitter=moaxcp
+github=moaxcp
+----
+
+=== post summary
+
+Having full posts on the index page can be annoying. I like having a summary of around 10 posts on the index. For most
+of my pages the summary is the first paragraph or everything up to the first section of the post. It is possible to
+add support for a summary to `post-brick.tpl` but first an explanation.
+
+`index.tpl` and `post.tpl` both use `post-brick.tpl` as a template for displaying posts. `index.tpl` and `post.tpl` are
+*composed* with `post-brick.tpl` to display a consistent blog post. I don't want it to be consistent. I want
+`post-brick.tpl` to only display a summary when it is used from `index.tpl` and display the full post from `post.tpl`.
+This can be done with a few changes to these files.
+
+==== index.tpl
+
+The first 10 published posts are visible from the index page.
+
+.index.tpl
+[source, groovy]
+----
+published_posts[0..9].each { post ->
+    model.put('post', post)
+    include template: 'post-brick.tpl'
+}
+----
+
+Next a summary is added to each post unless the post already contains a summary. If there are sections the summary is
+everything before the first section. Otherwise, the first paragraph is used.
+
+.index.tpl
+[source, groovy]
+----
+if(!post.summary) {
+    def h = post.body.indexOf("<h")
+    def p = post.body.indexOf("</div>")
+    if(h > 0) {
+        post.summary = post.body.substring(0, h)
+    } else if(post.body.contains("</div>")) {
+        post.summary = post.body.substring(0, p + 7)
+    }
+}
+----
+<1> Text before first section is used
+<2> If there are no sections then use first paragraph
+
+Then `post-brick.tpl` is called as a layout rather than an include. This has a few advantages like decoupling from the
+JBake model and being able to pass in only what is needed for the template to function.
+
+.index.tpl
+[source, groovy]
+----
+layout 'post-brick.tpl', config:config, post:post, summary:true //<1>
+----
+<1> summary flag set to true
+
+==== post.tpl
+
+`post.tpl` is modified to use a layout just like `index.tpl`.
+
+.post.tpl
+[source, groovy]
+----
+layout 'post-brick.tpl', config:config, post:content, summary:false //<1>
+----
+<1> summary flag set to false
+
+==== post-brick.tpl
+
+`post-brick.tpl` is modified to display the summary instead of body when needed.
+
+.post-brick.tpl
+[source, groovy]
+----
+yieldUnescaped summary ? post.summary : post.body
+----
+
+=== Disqus comments
+
+Now that we know when a post in `post-brick.tpl` is really a summary we can figure out if comments need to be
+displayed. Comments are displayed when the post is not a summary. Comments can be added as a new row.
+
+.post-brick.tpl
+[source, groovy]
+----
+if(!summary) {
+    div(class:'row') {
+        div(id:'disqus_thread') {
+            script {
+                yieldUnescaped """
+                    /**
+                    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                    /*
+                    var disqus_config = function () {
+                    this.page.url = '${config.site_host}/${post.uri}';  // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = '${post.uri}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                    };
+                    */
+                    (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://moaxcp.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                    })();
+                """
+            }
+            noscript {
+                yieldUnescaped 'Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>'
+            }
+        }
+    }
+}
+----
+
+A comment count can also be added for each post. First the disqus script needs to be added to `maint.tpl`.
+
+.main.tpl
+[source, groovy]
+----
+yieldUnescaped '''
+    <script id="dsq-count-scr" src="//moaxcp.disqus.com/count.js" async></script>
+'''
+----
+
+then a link needs to be added to `post-brick.tpl`.
+
+.post-brick.tpl
+[source, groovy]
+----
+a(href:"${config.site_contextPath}${post.uri}#disqus_thread", 'comments')
+----
+
+Disqus will look up comment counts using the script and update the link within the dom to include the count text.
