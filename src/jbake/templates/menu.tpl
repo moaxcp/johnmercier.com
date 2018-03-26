@@ -51,6 +51,9 @@ div(class:"row"){
                         li{
                             a(href:"${config.site_contextPath}${config.feed_file}","Subscribe")
                         }
+                        li{
+                            a(href:"${config.site_contextPath}about.html","About")
+                        }
                     }
                 }
             }

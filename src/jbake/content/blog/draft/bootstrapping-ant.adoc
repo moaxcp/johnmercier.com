@@ -1,0 +1,224 @@
+= Bootstrapping Ivy and Other Tasks in Ant
+2018-03-21
+:jbake-type: post
+:jbake-status: draft
+
+Typically build libraries with http://ant.apache.org/[ant] tasks are carefully managed in `~/.ant/lib` or
+`$ANT_HOME/lib` by the developer. Every project using http://ant.apache.org/[ant] will have those tasks on the
+classpath every time http://ant.apache.org/[ant] is invoked. This can be problematic to developers working on multiple
+http://ant.apache.org/[ant] projects. It can be especially problematic for CI servers building
+http://ant.apache.org/[ant] projects. Projects cannot select different versions of build tasks making the build none
+deterministic and dependent on the environment the build is executed in. Wouldn't it be nice if build libraries could
+be added to an http://ant.apache.org/[ant] project dynamically within the build.xml file? This can be made possible by
+downloading the libraries from a repository like https://search.maven.org/[maven central] and adding the tasks in the
+project's build file.
+
+The http://ant.apache.org/[ant] build system does not come with dependency management. Developers either need to manage
+dependencies manually or use http://ant.apache.org/ivy/[ivy]. Dependency management is not the easiest task to perform
+manually and it distracts developers from writing their projects. http://ant.apache.org/ivy/[Ivy] is capable of
+downloading dependencies from maven central for use in the project. http://ant.apache.org/ivy/[Ivy] will be used to
+provide build libraries to the http://ant.apache.org/[ant] project so tasks may be added but first
+http://ant.apache.org/ivy/[ivy] tasks must be added to the project.
+
+== base build.xml
+
+To get started here is a `build.xml` defining some properties we will use to download http://ant.apache.org/ivy/[ivy]
+and a cleanup task.
+
+.build.xml
+[source, ant]
+----
+<project>
+    <basename property="ant.project.name" file="${basedir}"/><1>
+
+    <property name="build.cache.dir" location="build-cache"/><2>
+    <property name="build.cache.download.dir" location="${build.cache.dir}/download"/>
+
+    <target name="cleanBuildCache" description="Deletes build cache."><3>
+        <delete dir="${build.cache.dir}"/>
+    </target>
+</project>
+----
+<1> project name is name of directory
+<2> setup properties for build cache
+<3> create target to delete build cache
+
+Bootstrapping is split into two parts: installing http://ant.apache.org/ivy/[ivy] and configuring the build tasks.
+First http://ant.apache.org/ivy/[ivy] tasks are added to the project by downloading http://ant.apache.org/ivy/[ivy]
+with http://ant.apache.org/manual/Tasks/get.html[get] and adding it to the project with
+http://ant.apache.org/manual/Tasks/taskdef.html[taskdef]. Second http://ant.apache.org/ivy/[ivy] is used to resolve
+other "build" dependencies while ant adds the task with another set of
+http://ant.apache.org/manual/Tasks/taskdef.html[taskdefs].
+
+== adding ivy tasks
+
+http://ant.apache.org/ivy/[Ivy] tasks are added to the project in a installIvy target. If
+http://ant.apache.org/ivy/[ivy] has already been downloaded through a previous build it will skip downloading the jar
+and just add the tasks.
+
+.build.xml
+[source, ant]
+----
+<target name="installIvy" description="Adds ivy jar to build cache and adds ivy tasks to project.">
+    <local name="ivy.dir"/><1>
+    <local name="ivy.file"/>
+    <local name="ivy.available"/>
+
+    <property name="ivy.dir" location="${build.cache.download.dir}/ivy"/>
+    <property name="ivy.file" location="${ivy.dir}/ivy-${ivy.version}.jar"/>
+    <available file="${ivy.file}" property="ivy.present"/><2>
+
+    <echo if:set="ivy.present">ivy installed at ${ivy.file}</echo>
+
+    <mkdir unless:set="ivy.present" dir="${ivy.dir}"/>
+    <get unless:set="ivy.present" dest="${ivy.file}"
+        src="${public.repo}/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar"/><3>
+
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.file}"/><4>
+</target>
+----
+<1> setup local properties for jar location
+<2> check if ivy file exists
+<3> download ivy jar unless it has already been downloaded
+<4> add ivy tasks to project
+
+ivy.version is a property defining the version of http://ant.apache.org/ivy/[ivy] to use.
+
+----
+<property name="ivy.version" value="2.4.0"/>
+----
+
+public.repo is a property defining the repo to download http://ant.apache.org/ivy/[ivy] from.
+
+----
+<property name="public.repo" value="http://repo1.maven.org/maven2"/>
+----
+
+== adding other build tasks
+
+Now that http://ant.apache.org/ivy/[ivy] has been added to the project other tasks can be resolved using
+http://ant.apache.org/ivy/[ivy] and added to the project. First we will create the ivysettings.xml and ivy.xml for the
+project. Then we will add the target which will download and add the build tasks.
+
+=== ivysettings.xml
+
+ivysettings.xml allows us to define repositories in which to resolve and publish dependencies.
+
+.ivysettings.xml
+[source, ant]
+----
+<ivysettings>
+    <settings defaultResolver="default"/>
+    <resolvers>
+      <ibiblio name="public" root="https://jcenter.bintray.com/" m2compatible="true"/><1>
+    </resolvers>
+    <include url="${ivy.default.settings.dir}/ivysettings-shared.xml"/>
+    <include url="${ivy.default.settings.dir}/ivysettings-local.xml"/>
+    <include url="${ivy.default.settings.dir}/ivysettings-main-chain.xml"/>
+    <include url="${ivy.default.settings.dir}/ivysettings-default-chain.xml"/>
+</ivysettings>
+----
+<1> public repository is set to jcenter
+
+The settings take advantage of the http://ant.apache.org/ivy/[ivy] defaults while setting the public repo to jcenter.
+
+=== ivy.xml
+
+ivy.xml provides project configurations and dependency management for the project. Dependencies can be added to
+configurations as needed. Configurations are sets of dependencies which can be used by different tasks such as javac
+and java. We will create a build configuration for the libraries containing http://ant.apache.org/[ant] tasks.
+
+.ivy.xml
+[source, ant]
+----
+<ivy-module version="2.0">
+    <info organisation="${project.organisation}" module="${ant.project.name}"/><1>
+    <configurations defaultconfmapping="build->master">
+        <conf name="build" visibility="private" description="libraries added to the ant build classpath"/><2>
+    </configurations>
+    <dependencies>
+        <dependency org="org.apache.ant" name="ant-antunit" rev="1.3" conf="build"/><3>
+        <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="build"/>
+    </dependencies>
+</ivy-module>
+----
+<1> setup project info
+<2> create build configuration
+<3> add antunit and ant-contrib to build configuration
+
+The http://ant.apache.org/ivy/[ivy] file adds antunit and ant-contrib to the build configuration. The build
+configuration is the set of dependencies which will be used to build the project. antunit allows for the build to be
+tested while ant-contrib adds some useful build tasks to the project.
+
+=== configureBuild target
+
+Finally the configureBuild target is used to resolve the build dependencies and add the tasks.
+
+.build.xml
+[source, ant]
+----
+<target name="configureBuild" depends="installIvy">
+    <ivy:resolve conf="build"/>
+    <ivy:cachepath pathid="build.classpath" conf="build"/>
+    <taskdef resource="org/apache/ant/antunit/antlib.xml" uri="antlib:org.apache.ant.antunit"
+        classpathref="build.classpath"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml" uri="antlib:net.sf.antcontrib"
+        classpathref="build.classpath"/>
+</target>
+----
+
+== final build.xml
+
+Here is the final `build.xml` file.
+
+.build.xml
+[source, ant]
+----
+<project xmlns:if="ant:if"
+    xmlns:unless="ant:unless"
+    xmlns:ivy="antlib:org.apache.ivy.ant"
+    xmlns:au="antlib:org.apache.ant.antunit"
+    xmlns:ac="antlib:net.sf.antcontrib">
+
+    <basename property="ant.project.name" file="${basedir}"/>
+
+    <property name="ivy.version" value="2.4.0"/>
+    <property name="ivy.settings.file" location="ivysettings.xml"/>
+
+    <property name="build.cache.dir" location="build-cache"/>
+    <property name="build.cache.download.dir" location="${build.cache.dir}/download"/>
+
+    <property name="public.repo" value="http://repo1.maven.org/maven2"/>
+
+    <target name="cleanBuildCache" description="Deletes build cache.">
+        <delete dir="${build.cache.dir}"/>
+    </target>
+
+    <target name="installIvy" description="Adds ivy jar to build cache and adds ivy tasks to project.">
+        <local name="ivy.dir"/>
+        <local name="ivy.file"/>
+        <local name="ivy.present"/>
+
+        <property name="ivy.dir" location="${build.cache.download.dir}/ivy"/>
+        <property name="ivy.file" location="${ivy.dir}/ivy-${ivy.version}.jar"/>
+        <available file="${ivy.file}" property="ivy.present"/>
+
+        <echo if:set="ivy.present">ivy installed at ${ivy.file}</echo>
+
+        <mkdir unless:set="ivy.present" dir="${ivy.dir}"/>
+        <get unless:set="ivy.present" dest="${ivy.file}"
+            src="${public.repo}/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar"/>
+
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.file}"/>
+    </target>
+
+    <target name="configureBuild" depends="installIvy">
+        <ivy:resolve conf="build"/>
+        <ivy:cachepath pathid="build.classpath" conf="build"/>
+        <taskdef resource="org/apache/ant/antunit/antlib.xml" uri="antlib:org.apache.ant.antunit"
+            classpathref="build.classpath"/>
+        <taskdef resource="net/sf/antcontrib/antlib.xml" uri="antlib:net.sf.antcontrib"
+            classpathref="build.classpath"/>
+    </target>
+</project>
+----
