@@ -1,7 +1,8 @@
 = Bootstrapping Ivy and Other Tasks in Ant
-2018-03-21
+2018-03-25
 :jbake-type: post
-:jbake-status: draft
+:jbake-tags: ant
+:jbake-status: published
 
 Typically build libraries with http://ant.apache.org/[ant] tasks are carefully managed in `~/.ant/lib` or
 `$ANT_HOME/lib` by the developer. Every project using http://ant.apache.org/[ant] will have those tasks on the
