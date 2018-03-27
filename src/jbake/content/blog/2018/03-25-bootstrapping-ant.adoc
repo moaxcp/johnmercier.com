@@ -85,12 +85,14 @@ and just add the tasks.
 
 ivy.version is a property defining the version of http://ant.apache.org/ivy/[ivy] to use.
 
+[source, ant]
 ----
 <property name="ivy.version" value="2.4.0"/>
 ----
 
 public.repo is a property defining the repo to download http://ant.apache.org/ivy/[ivy] from.
 
+[source, ant]
 ----
 <property name="public.repo" value="http://repo1.maven.org/maven2"/>
 ----
