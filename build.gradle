@@ -1,12 +1,28 @@
 
-plugins {
-    id 'org.jbake.site' version '1.0.0'
-    id 'org.ajoberstar.git-publish' version '0.4.0-rc.2'
+
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.orientechnologies:orientdb-core:2.2.34'
+    }
 }
 
+plugins {
+    id 'groovy'
+    id 'org.jbake.site' version '1.2.0'
+    id 'org.ajoberstar.git-publish' version '0.4.1'
+}
 
 repositories {
     jcenter()
+}
+
+jbake {
+    srcDirName = 'src/main/resources/jbake'
+    version = '2.6.1'
 }
 
 tasks.assemble.dependsOn 'bake'
@@ -18,10 +34,14 @@ gitPublish {
 
     contents {
         from bake.output
-        from 'src/github/CNAME'
+        from 'src/main/resources/github/CNAME'
     }
 
     commitMessage = 'Publishing from gradle.'
 }
 
 tasks.gitPublishPush.dependsOn 'bake'
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy:2.4.14'
+}

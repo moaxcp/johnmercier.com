@@ -1,0 +1,10 @@
+apply plugin:'nix'
+
+repositories {
+    nix 'dependencies.nix'
+}
+
+dependencies {
+    compile 'log4j:log4j:1.2.27'
+    testCompile 'junit:junit:4.12'
+}

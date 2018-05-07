@@ -1,0 +1,14 @@
+The new version of jbake did not run on nixos. These are my notes on fixing the issue.
+
+The script which runs jbake switched from using the java command available on $PATH to calling java 
+from $JAVA_HOME/bin/java. This is fixed by removing the call to substituteInPlace and adding 
+wrapProgram.
+
+----
+     installPhase = ''
+￼ -    substituteInPlace bin/jbake --replace "java" "${jre}/bin/java" 
+￼      mkdir -p $out
+￼      cp -vr * $out
+￼ +    wrapProgram $out/bin/jbake --set JAVA_HOME "${jre}"
+￼    '';
+----
