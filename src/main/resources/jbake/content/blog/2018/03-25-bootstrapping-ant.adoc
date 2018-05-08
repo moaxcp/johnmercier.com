@@ -1,4 +1,5 @@
 = Bootstrapping Ivy and Other Tasks in Ant
+John Mercier <moaxcp@gmail.com>
 2018-03-25
 :jbake-type: post
 :jbake-tags: ant

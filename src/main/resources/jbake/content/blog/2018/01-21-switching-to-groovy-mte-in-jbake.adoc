@@ -1,9 +1,9 @@
 = Switching to groovy-mte in JBake
+John Mercier <moaxcp@gmail.com>
 2018-01-21
 :jbake-type: post
 :jbake-tags: jbake, groovy
 :jbake-status: published
-
 One thing I don't like about https://en.wikipedia.org/wiki/JavaServer_Pages[jsp] is that it looks like
 https://en.wikipedia.org/wiki/HTML[html]. The default engine for http://jbake.org/[JBake] is
 https://freemarker.apache.org/[freemarker]. Like many other template engines
