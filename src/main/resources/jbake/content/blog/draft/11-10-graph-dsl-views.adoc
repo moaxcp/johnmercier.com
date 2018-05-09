@@ -4,11 +4,11 @@ John Mercier <moaxcp@gmail.com>
 :jbake-type: post
 :jbake-tags:
 :jbake-status: draft
-I'm adding a view method to graph-dsl. This method will generate a string which can be used
-by graphviz to create an image which can be displayed. This is the fist time
-graph-dsl will be
-integrated
-with
+I added a dot method to graph-dsl. This method will generate a string 
+containing a dot script for use in graphviz. I also add an image method which
+will save an image to the given filename using graphviz. A third method was
+added which will save an image and open the default linux image viewer to 
+display the image. This is the fist time graph-dsl has been integrated with
 another product.
 
 Spock tests can use a Mock to ensure the view calls the correct graphviz command.

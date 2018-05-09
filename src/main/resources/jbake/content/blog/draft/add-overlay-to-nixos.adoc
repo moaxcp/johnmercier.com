@@ -1,5 +1,5 @@
-My entire nixos configuration is in etc-nixos on github. Now that overlays are a thing I would like to 
-create one to replace package-upgrades.nix.
+My entire nixos configuration is in etc-nixos on github. Now that overlays are 
+a thing I would like to create one to replace package-upgrades.nix.
 
 ==Creating the overlay
 

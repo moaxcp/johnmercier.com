@@ -1,0 +1,62 @@
+= Notes on updating visualvm in nixpkgs
+John Mercier <moaxcp@gmail.com>
+2018-05-08
+:jbake-type: post
+:jbake-tags: ant
+:jbake-status: published
+https://visualvm.github.io/[VisualVM] is an application for monitoring and 
+performance analysis of java applications. The package for nixos is located 
+https://github.com/NixOS/nixpkgs/blob/c7e11a28dce73ecf13e53ce48e83096064700cb8/pkgs/development/tools/java/visualvm/default.nix[here].
+There are a few tips I learned when performing this upgrade.
+
+==fetchzip
+
+.visualvm/default.nix
+[source]
+----
+src = fetchzip {
+  url = "https://github.com/visualvm/visualvm.src/releases/download/${version}/visualvm_${builtins.replaceStrings ["."] [""]  version}.zip";
+  sha256 = "10ciyggf8mcy3c53shpl03fxqwsa2ilgw3xdgqhb1ah151k18p78";
+};
+----
+
+fetchzip uses "source" as the name by default. Only name and checksum affect 
+the path within the nix store. Inheriting the name may solve this problem if
+the version is updated. Just changing the url may result in the wrong 
+file being used. For visualvm I needed to change the url and sha256. sha256 is 
+a hash of the content of the zip file not the zip file itself. To get the hash 
+use nix-prefetch-url with the attribute to fetch. In the case of visualvm use
+
+.visualvm/default.nix
+[source]
+----
+nix-prefetch-url -A visualvm.src
+----
+
+nix-prefetch-url will download the src attribute to current directory. The 
+default name of the dir is source. If the hash doesn't match a message will 
+display the correct hash. The hash is not of the archive it is a deterministic 
+hash of the contents of the archive. You cannot run sha256sum on the file and 
+expect it to be correct.
+
+==building
+
+From nixpkgs repo run 
+
+[source]
+----
+nix-build -A visualvm
+----
+
+This will build the package and link to the results in the current directory.
+
+==installing
+
+[source]
+----
+nix-env -iA visualvm -f .
+----
+
+This will install the package for the user environment.
+
+The application can now be started.

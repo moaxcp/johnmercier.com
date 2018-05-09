@@ -4,7 +4,6 @@ John Mercier <moaxcp@gmail.com>
 :jbake-type: post
 :jbake-tags: ant
 :jbake-status: published
-
 Typically build libraries with http://ant.apache.org/[ant] tasks are carefully managed in `~/.ant/lib` or
 `$ANT_HOME/lib` by the developer. Every project using http://ant.apache.org/[ant] will have those tasks on the
 classpath every time http://ant.apache.org/[ant] is invoked. This can be problematic to developers working on multiple

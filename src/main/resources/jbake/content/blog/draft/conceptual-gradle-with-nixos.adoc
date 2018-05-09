@@ -1,4 +1,19 @@
-apply plugin:'nix'
+= gradle plugin for nix concept
+John Mercier <moaxcp@gmail.com>
+2018-05-07
+:jbake-type: post
+:jbake-tags: gradle, nix
+:jbake-status: draft
+
+This is just and idea for how a build.gradle file could look to use nix as a 
+repository.
+
+.build.gradle
+[source, groovy]
+----
+plugins {
+    id 'nix' version '0.0.0'
+}
 
 repositories {
     nix 'dependencies.nix'
@@ -8,3 +23,4 @@ dependencies {
     compile 'log4j:log4j:1.2.27'
     testCompile 'junit:junit:4.12'
 }
+----
