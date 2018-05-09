@@ -2,7 +2,7 @@
 John Mercier <moaxcp@gmail.com>
 2018-05-08
 :jbake-type: post
-:jbake-tags: ant
+:jbake-tags: nixos
 :jbake-status: published
 https://visualvm.github.io/[VisualVM] is an application for monitoring and 
 performance analysis of java applications. The package for nixos is located 
