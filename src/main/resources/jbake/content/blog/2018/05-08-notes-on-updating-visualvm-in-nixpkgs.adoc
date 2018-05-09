@@ -9,7 +9,7 @@ performance analysis of java applications. The package for nixos is located
 https://github.com/NixOS/nixpkgs/blob/c7e11a28dce73ecf13e53ce48e83096064700cb8/pkgs/development/tools/java/visualvm/default.nix[here].
 There are a few tips I learned when performing this upgrade.
 
-==fetchzip
+== fetchzip
 
 .visualvm/default.nix
 [source]
@@ -39,7 +39,7 @@ display the correct hash. The hash is not of the archive it is a deterministic
 hash of the contents of the archive. You cannot run sha256sum on the file and 
 expect it to be correct.
 
-==building
+== building
 
 From nixpkgs repo run 
 
@@ -50,7 +50,7 @@ nix-build -A visualvm
 
 This will build the package and link to the results in the current directory.
 
-==installing
+== installing
 
 [source]
 ----
