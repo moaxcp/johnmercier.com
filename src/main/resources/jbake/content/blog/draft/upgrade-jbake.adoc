@@ -1,7 +1,39 @@
-The new version of jbake did not run on nixos. These are my notes on fixing the issue.
+= Notes on updating jbake in nixpkgs
+John Mercier <moaxcp@gmail.com>
+2018-05-09
+:jbake-type: post
+:jbake-tags: nixos
+:jbake-status: draft
+After a bot upgraded jbake I was unable to run it on my system. The cause was 
+due to a change in the jbakes script detected the java executable. With some 
+help from the nix community I was able to fix it.
 
-The script which runs jbake switched from using the java command available on $PATH to calling java 
-from $JAVA_HOME/bin/java. This is fixed by removing the call to substituteInPlace and adding 
+== error
+
+Starting jbake would output an error.
+
+----
+0 + john@n1 nixpkgs $ ./result/bin/jbake
+
+ERROR: JAVA_HOME is set to an invalid directory: /nix/store/szwdr2qmldwn0q227qfrjpagzzzvxsb0-openjdk-9.0.4-b11/lib/openjdk
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation.
+----
+
+== cause
+
+The new script which runs jbake switched from using the java command available 
+on $PATH to calling java from $JAVA_HOME/bin/java. The nix package substituted
+the java command with a full path to the executable.
+
+----
+substituteInPlace bin/jbake --replace "java" "${jre}/bin/java"
+----
+
+== solution
+
+This is fixed by removing the call to substituteInPlace and adding 
 wrapProgram.
 
 ----
@@ -12,3 +44,10 @@ wrapProgram.
 ￼ +    wrapProgram $out/bin/jbake --set JAVA_HOME "${jre}"
 ￼    '';
 ----
+
+wrapProgram adds the correct JAVA_HOME environment variable.
+
+== preventing future issues
+
+The best thing to do is write a test for the jbake executable. Information on 
+writing tests is found https://nixos.org/nixos/manual/index.html#sec-nixos-tests[here].
