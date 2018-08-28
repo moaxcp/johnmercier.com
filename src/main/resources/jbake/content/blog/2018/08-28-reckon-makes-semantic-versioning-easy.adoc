@@ -12,28 +12,28 @@ http://semver.org/[semver].
 
 .build.gradle
 [source, groovy]
----
+----
 plugins {
     id 'org.ajoberstar.reckon' version '0.8.0'
 }
----
+----
 
 == configure the plugin
 
 .build.gradle
 [source, groovy]
----
+----
 reckon {
     scopeFromProp()
     snapshotFromProp()
 }
----
+----
 
 == run a build to see the version
 
----
+----
 Reckoned version: 0.1.0-SNAPSHOT
----
+----
 
 0.1.0 is the default version.
 
