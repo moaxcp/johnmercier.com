@@ -49,5 +49,13 @@ wrapProgram adds the correct JAVA_HOME environment variable.
 
 == preventing future issues
 
-The best thing to do is write a test for the jbake executable. Information on 
-writing tests is found https://nixos.org/nixos/manual/index.html#sec-nixos-tests[here].
+The best thing to do is write a test for jbake. 
+
+
+Information on writing tests is 
+found https://nixos.org/nixos/manual/index.html#sec-nixos-tests[here].
+
+NixOS provides a powerful testing framework. Each test is isolated in a virtual 
+machine (or many vms) built with the exact specification in the test. Once the
+vm is running a perl test script is run. If the test script fails the test 
+fails.

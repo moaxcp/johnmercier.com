@@ -1,0 +1,44 @@
+= Reckon Makes Semantic Versioning Easy
+John Mercier <moaxcp@gmail.com>
+2018-08-28
+:jbake-type: post
+:jbake-tags: gradle
+:jbake-status: published
+`reckon` is a gradle plugin which provides automatic semantic versioning to a project. It uses git tags to determine
+what the current version should be for any given build operation. It also enforces that versioning follows
+http://semver.org/[semver].
+
+== apply the plugin
+
+.build.gradle
+[source, groovy]
+---
+plugins {
+    id 'org.ajoberstar.reckon' version '0.8.0'
+}
+---
+
+== configure the plugin
+
+.build.gradle
+[source, groovy]
+---
+reckon {
+    scopeFromProp()
+    snapshotFromProp()
+}
+---
+
+== run a build to see the version
+
+---
+Reckoned version: 0.1.0-SNAPSHOT
+---
+
+0.1.0 is the default version.
+
+Versions are synchronized with git tags. Once a repository is tagged with a version in git that tag becomes the current
+version for that commit. Any other changes in the git repo including untracked changes will cause the version to change.
+
+Reckon works very well with github workflow. When a change is ready it can be merged to master through a pull request
+before being released. Once the ci system checks the build a tag can be added to start a full release.
