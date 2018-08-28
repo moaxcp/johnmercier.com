@@ -1,9 +1,9 @@
 = Notes on updating jbake in nixpkgs
 John Mercier <moaxcp@gmail.com>
-2018-05-09
+2018-08-28
 :jbake-type: post
 :jbake-tags: nixos
-:jbake-status: draft
+:jbake-status: published
 After a bot upgraded jbake I was unable to run it on my system. The cause was 
 due to a change in the jbakes script detected the java executable. With some 
 help from the nix community I was able to fix it.
