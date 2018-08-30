@@ -1,6 +1,6 @@
 = Adding Sonar to Gradle and travis-ci
 John Mercier <moaxcp@gmail.com>
-2018-08-29
+2018-08-30
 :jbake-type: post
 :jbake-tags: gradle travis-ci
 :jbake-status: published
