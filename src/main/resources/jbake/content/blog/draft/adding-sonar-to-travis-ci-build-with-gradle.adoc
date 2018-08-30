@@ -1,0 +1,60 @@
+= Adding Sonar to Gradle and travis-ci
+John Mercier <moaxcp@gmail.com>
+2018-08-29
+:jbake-type: post
+:jbake-tags: gradle travis-ci
+:jbake-status: published
+Sonar is a tool which provides static code analysis for your java projects. Start by creating an account at
+http://sonarcloud.io[sonarcloud.io] and creating a login token.
+
+To set it up in a gradle project add the plugin.
+
+----
+plugins {
+    id "org.sonarqube" version '2.6.2'
+}
+----
+
+For development the best place to add the token is in ``~/home/$USER/.gradle/gradle.properties`.
+
+.gradle.properties
+----
+systemProp.sonar.organization=moaxcp
+systemProp.sonar.host.url=https://sonarcloud.io
+systemProp.sonar.login=xxxxxx
+----
+
+Once everything is setup run the task.
+
+----
+./gradlew sonarqube
+Reckoned version: 0.1.0-SNAPSHOT
+> Task :compileJava UP-TO-DATE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava UP-TO-DATE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test UP-TO-DATE
+> Task :sonarqube
+Metric 'comment_lines_data' is deprecated. Provided value is ignored.
+Classes not found during the analysis : [javax.lang.model.element.Modifier]
+BUILD SUCCESSFUL in 52s
+4 actionable tasks: 1 executed, 3 up-to-date
+----
+
+For travis-ci it is best to use an encrypted environment variable and use it as an argument to gradle. Here is a
+section of the .travis.yml.
+
+.travis.yml
+[source, yml]
+----
+script:
+- ./gradlew build
+- ./gradlew -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=moaxcp -Dsonar.login=$SONAR_TOKEN sonarqube
+----
+
+`$SONAR_TOKEN` is a secure environment variable. To create a secure environment variable use the
+https://docs.travis-ci.com/user/environment-variables/#defining-encrypted-variables-in-travisyml[guide].
+
+https://travis-ci.org/moaxcp/graphs/builds/422364775[Here] is an example run.
